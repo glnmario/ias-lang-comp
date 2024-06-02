@@ -1,4 +1,4 @@
-# Incremental Alternative Sampling (Private repo)
+# Incremental Alternative Sampling
 
 This repository contains the code for the experiments reported in:
 
