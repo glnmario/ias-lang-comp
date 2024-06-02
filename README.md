@@ -40,7 +40,6 @@ analysis/preprocessed_corpora/aligned_preprocessed_normalised.csv
 analysis/preprocessed_corpora/naturalstories_preprocessed.csv
 analysis/preprocessed_corpora/naturalstories_preprocessed_normalised.csv
 ```   
-**Note**: We provide these precomputed dataframes in `analysis/preprocessed_corpora`.
 
 **[3]** Run statistical tests: `analysis/statistical_tests.ipynb`. This will create four output files:
 ```
