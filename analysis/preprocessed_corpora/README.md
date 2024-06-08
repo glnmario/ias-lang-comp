@@ -1,4 +1,4 @@
-This directory is where the output of step [2] ()`analysis/preprocess_aligned.ipynb` and `analysis/preprocess_naturalstories.ipynb`) shall be stored:
+This directory is where the output of step [2] (`analysis/preprocess_aligned.ipynb` and `analysis/preprocess_naturalstories.ipynb`) shall be stored:
 ```
 analysis/preprocessed_corpora/aligned_preprocessed.csv  
 analysis/preprocessed_corpora/aligned_preprocessed_normalised.csv
