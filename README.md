@@ -2,7 +2,7 @@
 
 This repository contains the code for the experiments reported in:
 
-**Incremental Alternative Sampling as a Window into the Temporal
+**Incremental Alternative Sampling as a Lens into the Temporal
 and Representational Resolution of Prediction in Language Comprehension**. (June 2024). Mario Giulianelli, Sarenne Wallbridge, Ryan Cotterell, Raquel Fernández. 
 
 
