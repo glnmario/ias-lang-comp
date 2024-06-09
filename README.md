@@ -3,7 +3,7 @@
 This repository contains the code for the experiments reported in:
 
 **Incremental Alternative Sampling as a Lens into the Temporal
-and Representational Resolution of Prediction in Language Comprehension**. (June 2024). Mario Giulianelli, Sarenne Wallbridge, Ryan Cotterell, Raquel Fernández. 
+and Representational Resolution of Linguistic Prediction**. (June 2024). Mario Giulianelli, Sarenne Wallbridge, Ryan Cotterell, Raquel Fernández. 
 
 
 ## Instructions
