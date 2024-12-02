@@ -11,7 +11,7 @@ Giulianelli, M., Wallbridge, S., Cotterell, R., & Fernández, R. (2024). **Incre
 ```
 python src/compute_surprisal.py \
     --dataset data/corpora/aligned/texts.csv \
-    --output ddata/estimates/aligned/surprisal/gpt2-small_surprisal.csv \
+    --output data/estimates/aligned/surprisal/gpt2-small_surprisal.csv \
     --aggregate_by_word \
     --return_tokens \
     --model_name_or_path gpt2 \
