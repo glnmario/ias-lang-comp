@@ -209,6 +209,7 @@ class IncrementalInformationValueScorer(Scorer):
         self.layers = layers if layers else list(range(self.model.config.n_layer + 1))
         self.temporally_align = temporally_align
         self.summary_fn = summary_fn
+        self.distance_metric = distance_metric
         self.seed = seed
 
         # Set random seed for reproducibility
@@ -270,8 +271,6 @@ class IncrementalInformationValueScorer(Scorer):
         if forecast_horizons is None:
             raise ValueError("forecast_horizons must be a list of positive integers")
 
-        # print(timesteps_A, timesteps_B)
-
         truncated_alternatives_A = []
         for i, a in enumerate(A):
             truncated_alternatives_A.append(a[length_true_seq_A:] if self.temporally_align else a)
@@ -317,6 +316,11 @@ class IncrementalInformationValueScorer(Scorer):
         if self.distance_metric not in ["euclidean", "seuclidean", "cosine", "spearmanr", "canberra"]:
             raise ValueError("metric must be one of 'euclidean', 'seuclidean', 'cosine', 'spearmanr', 'canberra'")
         
+        if isinstance(A, torch.Tensor):
+            A = A.cpu()
+        if isinstance(B, torch.Tensor):
+            B = B.cpu()
+
         if self.distance_metric == "spearmanr":
             distance_matrix = self.spearmanr_dist(A, B)
         else:
@@ -429,7 +433,6 @@ class IncrementalInformationValueScorer(Scorer):
 
         # map words to token positions
         timesteps = self.map_words_to_token_positions(input, seq_len, input_tokenized['offset_mapping'], skip_first_token=not add_bos_token)
-        print(timesteps)
 
         if add_bos_token:
             timesteps = [t + 1 for t in timesteps]
