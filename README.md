@@ -17,7 +17,7 @@ python src/compute_surprisal.py \
     --model_name_or_path gpt2 \
     --device cuda
 
-python src/compute_incremental_information_value.py \
+python src/compute_ias.py \
     --dataset data/corpora/aligned/texts.csv \
     --output data/estimates/aligned/iv_k50_euclidean/gpt2-small_iv_n1.csv \
     --model_name_or_path gpt2 \
@@ -27,6 +27,7 @@ python src/compute_incremental_information_value.py \
     --n_sets 1 \
     --n_samples_per_set 50 \
     --forecast_horizons "[1,2,3,4,5,6,7,8,9,10]" \
+    --distance_metric euclidean \
     --seed 0 \
     --device cuda
 ```

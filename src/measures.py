@@ -1,3 +1,4 @@
+import scipy
 import torch
 import numpy as np
 
@@ -196,6 +197,7 @@ class IncrementalInformationValueScorer(Scorer):
             layers: Optional[list] = None,
             temporally_align: Optional[bool] = True,
             summary_fn: Optional[str] = None,
+            distance_metric: Optional[str] = "euclidean",
             seed: Optional[int] = 0
     ):
         """
@@ -297,32 +299,52 @@ class IncrementalInformationValueScorer(Scorer):
                     embeds_B[(l, h)] = self.aggregate_embeddings(hidden_states_B[l], h, seq_len, length_true_seq_B)
 
             return embeds_A, embeds_B
+    
+    @staticmethod
+    def spearmanr_dist(A, B):
+        distances = torch.zeros(A.shape[0], B.shape[0])
+        for i in range(A.shape[0]):
+            for j in range(B.shape[0]):
+                distances[i, j] = 1 - scipy.stats.spearmanr(A[i], B[j]).statistic
+        return distances
 
     def pairwise_distances(self, A: torch.Tensor, B: torch.Tensor):
+        """
+        :param A: tensor of shape [n_alternatives_A, n_dims]
+        :param B: tensor of shape [n_alternatives_B, n_dims]
+        :return: dictionary mapping summary statistics to distance values
+        """
+        if self.distance_metric not in ["euclidean", "seuclidean", "cosine", "spearmanr", "canberra"]:
+            raise ValueError("metric must be one of 'euclidean', 'seuclidean', 'cosine', 'spearmanr', 'canberra'")
+        
+        if self.distance_metric == "spearmanr":
+            distance_matrix = self.spearmanr_dist(A, B)
+        else:
+            distance_matrix = scipy.spatial.distance.cdist(A, B, metric=self.distance_metric)
 
-        # For each layer, compute pairwise distances between A and B
         if self.summary_fn is None:
             distance_dict = {
-                "mean": torch.cdist(A, B).mean(),
-                "max": torch.cdist(A, B).max(),
-                "min": torch.cdist(A, B).min()
+                "mean": distance_matrix.mean(),
+                "max": distance_matrix.max(),
+                "min": distance_matrix.min()
+            }
+        elif self.summary_fn == "mean":
+            distance_dict = {
+                "mean": distance_matrix.mean()
+            }
+        elif self.summary_fn == "max":
+            distance_dict = {
+                "max": distance_matrix.max()
+            }
+        elif self.summary_fn == "min":
+            distance_dict = {
+                "min": distance_matrix.min()
             }
         else:
-            if self.summary_fn == "mean":
-                callable_summary_fn = torch.mean
-            elif self.summary_fn == "max":
-                callable_summary_fn = torch.max
-            elif self.summary_fn == "min":
-                callable_summary_fn = torch.min
-            else:
-                raise ValueError("summary_fn must be one of 'mean', 'max', 'min'")
-
-            distance_dict = {
-                self.summary_fn: callable_summary_fn(torch.cdist(A, B))
-            }
-
+            raise ValueError("summary_fn must be one of 'mean', 'max', 'min', or None")
+        
         return distance_dict
-
+    
     def map_words_to_token_positions(self, string, unit=1, tokenizer_offset_mapping=None, skip_first_token=False):
         """
         Map words or ngrams in a string to token positions in the tokenized string.
