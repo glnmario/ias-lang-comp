@@ -2,9 +2,7 @@
 
 This repository contains the code for the experiments reported in:
 
-**Incremental Alternative Sampling as a Lens into the Temporal
-and Representational Resolution of Linguistic Prediction**. (June 2024). Mario Giulianelli, Sarenne Wallbridge, Ryan Cotterell, Raquel Fernández. 
-
+Giulianelli, M., Wallbridge, S., Cotterell, R., & Fernández, R. (2024). **Incremental Alternative Sampling as a Lens into the Temporal and Representational Resolution of Linguistic Prediction**. https://doi.org/10.31234/osf.io/fhp84
 
 ## Instructions
 **[0]** Install `requirements.txt`.
