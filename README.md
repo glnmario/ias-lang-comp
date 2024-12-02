@@ -21,7 +21,7 @@ python src/compute_surprisal.py \
 
 python src/compute_incremental_information_value.py \
     --dataset data/corpora/aligned/texts.csv \
-    --output data/estimates/aligned/iv_k50/gpt2-small_iv_n1.csv \
+    --output data/estimates/aligned/iv_k50_euclidean/gpt2-small_iv_n1.csv \
     --model_name_or_path gpt2 \
     --return_tokens \
     --layers "[0,1,2,3,4,5,6,7,8,9,10,11,12]" \
@@ -35,19 +35,19 @@ python src/compute_incremental_information_value.py \
 
 **[2]** Preprocess corpora for the analysis: run `analysis/preprocess_aligned.ipynb` and `analysis/preprocess_naturalstories.ipynb`. This will create four output files:
 ```
-analysis/preprocessed_corpora/aligned_preprocessed.csv  
-analysis/preprocessed_corpora/aligned_preprocessed_normalised.csv
-analysis/preprocessed_corpora/naturalstories_preprocessed.csv
-analysis/preprocessed_corpora/naturalstories_preprocessed_normalised.csv
+analysis/preprocessed_corpora/euclidean/aligned_preprocessed.csv  
+analysis/preprocessed_corpora/euclidean/aligned_preprocessed_normalised.csv
+analysis/preprocessed_corpora/euclidean/naturalstories_preprocessed.csv
+analysis/preprocessed_corpora/euclidean/naturalstories_preprocessed_normalised.csv
 ```   
 
-**[3]** Run statistical tests: `analysis/statistical_tests.ipynb`. This will create four output files:
+**[3]** Run statistical tests in `analysis/statistical_tests_aligned.ipynb` and `analysis/statistical_tests_aligned.ipynb`. Executing these two notebooks will create four output files:
 ```
-analysis/results/aligned_ols_against_baseline.csv
-analysis/results/aligned_ols_against_surprisal.csv
-analysis/results/naturalstories_ols_against_baseline.csv
-analysis/results/naturalstories_ols_against_surprisal.csv
+analysis/results/euclidean/aligned_ols_against_baseline.csv
+analysis/results/euclidean/aligned_ols_against_surprisal.csv
+analysis/results/euclidean/naturalstories_ols_against_baseline.csv
+analysis/results/euclidean/naturalstories_ols_against_surprisal.csv
 ```
-**Note**: We provide these precomputed dataframes in `analysis/results`.
+**Note**: We provide these precomputed dataframes in `analysis/results/euclidean`.
 
-**[4]** Analyse and visualise results: `analysis/hypothesis_testing.ipynb`. Plots are saved by default in `analysis/figures`.
+**[4]** Analyse and visualise results: `analysis/hypothesis_testing.ipynb`. Plots are saved by default in `analysis/figures/euclidean`.

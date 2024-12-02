@@ -6,4 +6,4 @@ analysis/preprocessed_corpora/naturalstories_preprocessed.csv
 analysis/preprocessed_corpora/naturalstories_preprocessed_normalised.csv
 ```   
 
-These are large files which we cannot upload on GitHub. You can either create them yourself or skip directly to step [3]. 
+These are large files which we cannot upload on GitHub. You can either create them yourself or reach out to us. 
