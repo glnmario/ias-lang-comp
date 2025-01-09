@@ -198,7 +198,7 @@ class IncrementalInformationValueScorer(Scorer):
             temporally_align: Optional[bool] = True,
             summary_fn: Optional[str] = None,
             distance_metric: Optional[str] = "euclidean",
-            mean_var_embeddings_path: Optional[str] = None,
+            mean_std_embeddings_path: Optional[str] = None,
             seed: Optional[int] = 0
     ):
         """
@@ -211,11 +211,11 @@ class IncrementalInformationValueScorer(Scorer):
         self.temporally_align = temporally_align
         self.summary_fn = summary_fn
         self.distance_metric = distance_metric
-        self.standardize_embeddings = mean_var_embeddings_path is not None
+        self.standardize_embeddings = mean_std_embeddings_path is not None
         self.seed = seed
 
         if self.standardize_embeddings:
-            self.mean_var_embeds = torch.load(mean_var_embeddings_path)
+            self.mean_std_embeds = torch.load(mean_std_embeddings_path)
     
         # Set random seed for reproducibility
         torch.manual_seed(self.seed)
@@ -503,8 +503,8 @@ class IncrementalInformationValueScorer(Scorer):
 
             for layer, horizon in embeds_A.keys():
                 if self.standardize_embeddings:
-                    embeds_A[(layer, horizon)] = (embeds_A[(layer, horizon)][0] - self.mean_var_embeds[(layer, horizon)][0]) / self.mean_var_embeds[(layer, horizon)][1]
-                    embeds_B[(layer, horizon)] = (embeds_B[(layer, horizon)][0] - self.mean_var_embeds[(layer, horizon)][0]) / self.mean_var_embeds[(layer, horizon)][1]
+                    embeds_A[(layer, horizon)] = (embeds_A[(layer, horizon)][0] - self.mean_std_embeds[(layer, horizon)][0]) / self.mean_std_embeds[(layer, horizon)][1]
+                    embeds_B[(layer, horizon)] = (embeds_B[(layer, horizon)][0] - self.mean_std_embeds[(layer, horizon)][0]) / self.mean_std_embeds[(layer, horizon)][1]
 
                 distances[(layer, horizon)].append(
                     self.pairwise_distances(

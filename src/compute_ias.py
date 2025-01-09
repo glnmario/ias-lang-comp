@@ -18,6 +18,7 @@ if __name__ == '__main__':
     parser.add_argument('--layers', type=str, default=None, help='Layers to use')
     parser.add_argument('--summary_fn', type=str, default=None, help='Summary function to use')
     parser.add_argument('--distance_metric', type=str, default='euclidean', help='Distance metric to use')
+    parser.add_argument('--mean_std_embeddings_path', type=str, default=None, help="Path to mean and standard deviation embeddings for standardization")
     parser.add_argument('--seq_len', type=int, default=1, help='Unit sequence length to use')
     parser.add_argument('--n_sets', type=int, default=1, help='Number of alternative sets to use')
     parser.add_argument('--n_samples_per_set', type=int, default=1, help='Number of samples per set to use')
@@ -49,6 +50,7 @@ if __name__ == '__main__':
         layers=args.layers,
         summary_fn=args.summary_fn,
         distance_metric=args.distance_metric,
+        mean_std_embeddings_path=args.mean_std_embeddings_path,
         seed=args.seed
     )
 
