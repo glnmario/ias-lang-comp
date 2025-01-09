@@ -198,6 +198,7 @@ class IncrementalInformationValueScorer(Scorer):
             temporally_align: Optional[bool] = True,
             summary_fn: Optional[str] = None,
             distance_metric: Optional[str] = "euclidean",
+            mean_var_embeddings_path: Optional[str] = None,
             seed: Optional[int] = 0
     ):
         """
@@ -210,8 +211,12 @@ class IncrementalInformationValueScorer(Scorer):
         self.temporally_align = temporally_align
         self.summary_fn = summary_fn
         self.distance_metric = distance_metric
+        self.standardize_embeddings = mean_var_embeddings_path is not None
         self.seed = seed
 
+        if self.standardize_embeddings:
+            self.mean_var_embeds = torch.load(mean_var_embeddings_path)
+    
         # Set random seed for reproducibility
         torch.manual_seed(self.seed)
         np.random.seed(self.seed)
@@ -411,6 +416,7 @@ class IncrementalInformationValueScorer(Scorer):
             forecast_horizons: List[int],
             add_bos_token: Optional[bool] = True,
             return_tokens: Optional[bool] = False,
+            print_alternatives: Optional[bool] = False
     ):
 
         # check if seq_len is valid
@@ -476,6 +482,13 @@ class IncrementalInformationValueScorer(Scorer):
                 for sample in alternative_ids.sequences:
                     alternative = sample[context_ids.shape[-1] - (length_true_seq):]
                     alternatives_at_t.append(alternative)
+            
+            if print_alternatives:
+                print(f"Generated alternatives at timestep {t} ({self.tokenizer.decode(context_ids)}):")
+                for i, alt in enumerate(alternatives_at_t):
+                    print(f"{i}: {self.tokenizer.decode(alt)}")
+                print('----------------------------------------------')
+
 
             # we have now collected all alternatives for this time step
             alternatives.append(alternatives_at_t)
@@ -489,6 +502,10 @@ class IncrementalInformationValueScorer(Scorer):
                                                              length_true_seq_t_)
 
             for layer, horizon in embeds_A.keys():
+                if self.standardize_embeddings:
+                    embeds_A[(layer, horizon)] = (embeds_A[(layer, horizon)][0] - self.mean_var_embeds[(layer, horizon)][0]) / self.mean_var_embeds[(layer, horizon)][1]
+                    embeds_B[(layer, horizon)] = (embeds_B[(layer, horizon)][0] - self.mean_var_embeds[(layer, horizon)][0]) / self.mean_var_embeds[(layer, horizon)][1]
+
                 distances[(layer, horizon)].append(
                     self.pairwise_distances(
                         embeds_A[(layer, horizon)], embeds_B[(layer, horizon)]
