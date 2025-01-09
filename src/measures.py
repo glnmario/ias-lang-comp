@@ -503,8 +503,8 @@ class IncrementalInformationValueScorer(Scorer):
 
             for layer, horizon in embeds_A.keys():
                 if self.standardize_embeddings:
-                    embeds_A[(layer, horizon)] = (embeds_A[(layer, horizon)][0] - self.mean_std_embeds[(layer, horizon)][0]) / self.mean_std_embeds[(layer, horizon)][1]
-                    embeds_B[(layer, horizon)] = (embeds_B[(layer, horizon)][0] - self.mean_std_embeds[(layer, horizon)][0]) / self.mean_std_embeds[(layer, horizon)][1]
+                    embeds_A[(layer, horizon)] = (embeds_A[(layer, horizon)] - self.mean_std_embeds[(layer, horizon)][0]) / self.mean_std_embeds[(layer, horizon)][1]
+                    embeds_B[(layer, horizon)] = (embeds_B[(layer, horizon)] - self.mean_std_embeds[(layer, horizon)][0]) / self.mean_std_embeds[(layer, horizon)][1]
 
                 distances[(layer, horizon)].append(
                     self.pairwise_distances(
