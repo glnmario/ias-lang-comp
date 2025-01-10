@@ -216,6 +216,9 @@ class IncrementalInformationValueScorer(Scorer):
 
         if self.standardize_embeddings:
             self.mean_std_embeds = torch.load(mean_std_embeddings_path)
+            for k in self.mean_std_embeds.keys():
+                self.mean_std_embeds[k] = [t.to(self.device) for t in self.mean_std_embeds[k]]
+
     
         # Set random seed for reproducibility
         torch.manual_seed(self.seed)
