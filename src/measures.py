@@ -487,8 +487,8 @@ class IncrementalInformationValueScorer(Scorer):
                     alternatives_at_t.append(alternative)
             
             if print_alternatives:
-                print(f"Generated alternatives at timestep {t} ({self.tokenizer.decode(context_ids)}):")
-                for i, alt in enumerate(alternatives_at_t):
+                print(f"Timestep {t} (context: `{self.tokenizer.decode(context_ids)}')")
+                for i, alt in enumerate(alternatives_at_t, start=1):
                     print(f"{i}: {self.tokenizer.decode(alt)}")
                 print('----------------------------------------------')
 
