@@ -2,7 +2,7 @@
 
 This repository contains the code for the experiments reported in:
 
-Giulianelli, M., Wallbridge, S., Cotterell, R., & Fernández, R. (2026). **Incremental Alternative Sampling as a Lens into the Temporal and Representational Resolution of Linguistic Prediction**. _Journal of Memory and Language_. [https://doi.org/10.1016/j.jml.2025.104715](https://doi.org/10.1016/j.jml.2025.104715)
+Giulianelli, M., Wallbridge, S., Cotterell, R., & Fernández, R. (2026). [Incremental Alternative Sampling as a Lens into the Temporal and Representational Resolution of Linguistic Prediction](https://doi.org/10.1016/j.jml.2025.104715). _Journal of Memory and Language_.
 
 ## Instructions
 **[0]** Install `requirements.txt`.
